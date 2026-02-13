@@ -30,13 +30,13 @@ const roomMap = Object.fromEntries(rooms.map(r => [r.data.title, r]));
         return (
           <div style="display: flex; justify-content: center; width: 100%; gap: 1rem; align-items: center;">
             <!-- 左侧人名：固定宽度，右对齐，统一行高 -->
-            <div style="width: 120px; text-align: right; line-height: 2rem;">
+            <div style="width: 100px; text-align: right; line-height: 2rem;">
               <a href={`/people/${item.person}`} style="text-decoration: none; color: inherit; font-size: 1.5rem;">
                 {item.person}
               </a>
             </div>
             <!-- 右侧房间：固定宽度，左对齐，图标和文字在同一水平线 -->
-            <div style="width: 190px; text-align: left; line-height: 2rem;">
+            <div style="width: 140px; text-align: left; line-height: 2rem;">
               {room ? (
                 <a href={`/rooms/${room.id}`} style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 0.5rem;">
                   <span style="font-size: 1.8rem;">{room.data.icon}</span>
