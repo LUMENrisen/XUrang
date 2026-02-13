@@ -8,17 +8,17 @@
         "type": "tabs",
         "children": [
           {
-            "id": "de8a3ad443e54f67",
+            "id": "da00f24dfa905891",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "src/content/blog/未命名 1.md",
+                "file": "src/content/blog/未命名 2.md",
                 "mode": "source",
                 "source": true
               },
               "icon": "lucide-file",
-              "title": "未命名 1"
+              "title": "未命名 2"
             }
           }
         ]
@@ -181,13 +181,30 @@
       "templates:插入模板": false,
       "command-palette:打开命令面板": false,
       "bases:新建数据库": false,
-      "obsidian-shellcommands:Shell commands: Custom variables": false
+      "obsidian-shellcommands:Shell commands: Custom variables": false,
+      "templater-obsidian:Templater": false
     }
   },
-  "active": "de8a3ad443e54f67",
+  "active": "da00f24dfa905891",
   "lastOpenFiles": [
-    "src/content/blog/未命名.md",
     "src/content/blog/未命名 1.md",
+    "src/content/blog/未命名 2.md",
+    "Untitled.md",
+    "Templates/blog-post.md.md",
+    "src/content/blog/扩大飞机.md",
+    "src/content/blog/点击链接发.md",
+    "src/content/blog/测试.md",
+    "src/content/blog/未命名.md",
+    "测试文章.md",
+    "测试.md",
+    "README.md",
+    "src/content/blog/打开房间啊了.md",
+    "未命名.md",
+    "src/content/blog/试试.md",
+    "src/content/blog/的肌肤.md",
+    "src/content/blog/测试二.md",
+    "Pasted image 20260213225929.png",
+    "Templates",
     "dist/sitemap-0.xml",
     "dist/sitemap-index.xml",
     "dist/index.html",
@@ -197,7 +214,6 @@
     "dist/test-blog",
     "dist/rss.xml",
     "dist/rooms/you-sheng.md/index.html",
-    "dist/rooms/ruo-shui.md/index.html",
     "dist/rooms/you-sheng.md",
     "dist/rooms/ruo-shui.md",
     "dist/rooms/hua-kai.md",
@@ -209,11 +225,6 @@
     "dist/blog/未命名.md",
     "dist/blog/文而能圣.md",
     "dist/_astro/blog-placeholder-1.Bx0Zcyzv.jpg",
-    "dist/favicon.svg",
-    "src/content/blog/试试.md",
-    "src/content/blog/文而能圣.md",
-    "Pasted image 20260213225929.png",
-    "src/content/rooms/bu-jin.md",
-    "src/content/rooms/cheng-xi.md"
+    "dist/favicon.svg"
   ]
 }
