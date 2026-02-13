@@ -1,11 +1,40 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+// 获取所有房间并按 order 排序
+const rooms = await getCollection('rooms');
+rooms.sort((a, b) => a.data.order - b.data.order);
 ---
 
-<Layout>
-	<Welcome />
+<Layout title="塔">
+	<main style="max-width: 1000px; margin: 0 auto; padding: 2rem 1rem;">
+		<h1 style="text-align: center; font-size: 3rem; margin-bottom: 0.5rem;">⭐</h1>
+		<p style="text-align: center; color: gray; margin-bottom: 3rem;">
+			欢迎。这是一座以系统思维为骨、东方诗学为魂的螺旋思想圣殿。
+		</p>
+		<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1.5rem;">
+			{
+				rooms.map((room) => (
+					// 关键：链接必须指向 /rooms/房间id
+					<a href={`/rooms/${room.id}`} style="text-decoration: none; color: inherit;">
+						<article style="
+							border: 1px solid #e5e7eb;
+							border-radius: 1rem;
+							padding: 1.5rem;
+							background: white;
+							box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+							transition: all 0.2s;
+							height: 100%;
+						">
+							<div style="font-size: 2.5rem; margin-bottom: 0.5rem;">{room.data.icon}</div>
+							<h2 style="margin: 0 0 0.25rem; font-size: 1.5rem;">{room.data.title}</h2>
+							<p style="margin: 0 0 0.5rem; color: #4b5563; font-size: 0.9rem;">{room.data.subtitle}</p>
+							<p style="margin: 0; color: #6b7280;">{room.data.description}</p>
+						</article>
+					</a>
+				))
+			}
+		</div>
+	</main>
 </Layout>

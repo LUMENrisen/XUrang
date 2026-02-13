@@ -1,0 +1,54 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+// 身份与房间的映射（硬编码，因为身份信息目前不在集合里）
+const identities = [
+	{ room: '风来', name: '路过', icon: '🦌' },
+	{ room: '花开', name: '路上', icon: '🦌' },
+	{ room: '又生', name: '路明', icon: '🦌' },
+	{ room: '成蹊', name: '路炎晨', icon: '🦌' },
+	{ room: '若水', name: '路宅', icon: '🦌' },
+	{ room: '不尽', name: '路痴', icon: '🦌' },
+	{ room: '道', name: '路标', icon: '🦌' },
+];
+const rooms = await getCollection('rooms');
+const roomMap = Object.fromEntries(rooms.map(r => [r.data.title, r]));
+---
+
+<Layout title="路">
+	<main style="max-width: 700px; margin: 0 auto; padding: 2rem 1rem;">
+		<h1 style="display: flex; align-items: center; gap: 0.5rem;">
+			<span style="font-size: 2.5rem;">🦌</span> 路
+		</h1>
+		<p style="font-size: 1.2rem; margin-bottom: 2rem;">
+			每个房间都有一个行走于此的身份。
+		</p>
+		<div style="display: grid; gap: 1.5rem;">
+			{
+				identities.map(({ room, name, icon }) => {
+					const roomData = roomMap[room];
+					return (
+						<a href={`/rooms/${roomData?.id || '#'}`} style="text-decoration: none; color: inherit;">
+							<article style="
+								display: flex;
+								align-items: center;
+								gap: 1rem;
+								padding: 1rem;
+								border: 1px solid #e5e7eb;
+								border-radius: 0.75rem;
+								background: white;
+							">
+								<span style="font-size: 2rem;">{icon}</span>
+								<div>
+									<h3 style="margin: 0; font-size: 1.25rem;">{name}</h3>
+									<p style="margin: 0; color: #6b7280;">{room} · {roomData?.data.subtitle}</p>
+								</div>
+							</article>
+						</a>
+					);
+				})
+			}
+		</div>
+	</main>
+</Layout>

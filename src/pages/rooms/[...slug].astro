@@ -1,0 +1,29 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const rooms = await getCollection('rooms');
+  console.log('Rooms loaded:', rooms.map(r => r.id)); // 添加调试输出
+  return rooms.map((room) => ({
+    params: { slug: room.id },
+    props: { room },
+  }));
+}
+
+const { room } = Astro.props;
+const { data } = room;
+---
+
+<Layout title={`${data.title} · 塔`}>
+  <main style="max-width: 700px; margin: 0 auto; padding: 2rem 1rem;">
+    <a href="/" style="display: inline-block; margin-bottom: 2rem;">← 返回塔</a>
+    <div style="font-size: 3rem;">{data.icon}</div>
+    <h1>{data.title}</h1>
+    <p style="font-size: 1.2rem; color: #4b5563;">{data.subtitle}</p>
+    <p>{data.description}</p>
+    <hr />
+    <h2>📄 相关文章</h2>
+    <p style="color: gray;">（这部分稍后添加——根据文章 tags 筛选）</p>
+  </main>
+</Layout>

@@ -1,0 +1,37 @@
+---
+import { getCollection } from 'astro:content';
+const rooms = await getCollection('rooms');
+console.log('测试页面加载的 rooms:', rooms);
+---
+<html>
+  <head>
+    <title>房间集合测试</title>
+  </head>
+  <body>
+    <h1>房间集合测试</h1>
+    <p><code>rooms</code> 集合长度：<strong>{rooms.length}</strong></p>
+    {rooms.length === 0 ? (
+      <p style="color: red;">❌ 集合为空，Astro 没有读取到任何房间文件。</p>
+    ) : (
+      <div>
+        <p>✅ 成功加载 {rooms.length} 个房间：</p>
+        <ul>
+          {rooms.map((room) => (
+            <li>
+              <b>{room.id}</b> —— 标题：{room.data.title}，副标题：{room.data.subtitle}，图标：{room.data.icon}，顺序：{room.data.order}
+            </li>
+          ))}
+        </ul>
+      </div>
+    )}
+    <hr />
+    <p>如果你看到集合为空，请检查以下可能原因：</p>
+    <ul>
+      <li>文件是否真的在 <code>src/content/rooms/</code> 目录下</li>
+      <li>文件名是否以 <code>.md</code> 结尾</li>
+      <li>每个文件是否包含正确的 frontmatter（以 <code>---</code> 包裹）</li>
+      <li>文件编码是否为 UTF-8 无 BOM（用 Obsidian 保存可保证）</li>
+      <li><code>src/content/config.ts</code> 是否导出了 <code>rooms</code> 集合</li>
+    </ul>
+  </body>
+</html>

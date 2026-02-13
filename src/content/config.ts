@@ -1,0 +1,1 @@
+const blog = defineCollection({ type: 'content' });

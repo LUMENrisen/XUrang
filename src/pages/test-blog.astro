@@ -1,0 +1,26 @@
+---
+import { getCollection } from 'astro:content';
+const posts = await getCollection('blog');
+console.log('测试页面加载的 blog 文章:', posts);
+---
+<html>
+  <head><title>博客集合测试</title></head>
+  <body>
+    <h1>博客集合测试</h1>
+    <p>文章数量：<strong>{posts.length}</strong></p>
+    {posts.length === 0 ? (
+      <p style="color: red;">❌ 没有加载到任何博客文章</p>
+    ) : (
+      <div>
+        <p>✅ 成功加载 {posts.length} 篇文章：</p>
+        <ul>
+          {posts.map(post => (
+            <li key={post.id}>
+              <b>{post.id}</b> —— 标题：{post.data.title}，日期：{post.data.pubDate?.toString()}
+            </li>
+          ))}
+        </ul>
+      </div>
+    )}
+  </body>
+</html>
