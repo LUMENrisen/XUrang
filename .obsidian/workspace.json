@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "src/content/rooms/bu-jin.md",
+                "file": "src/content/blog/未命名.md",
                 "mode": "source",
-                "source": false
+                "source": true
               },
               "icon": "lucide-file",
-              "title": "bu-jin"
+              "title": "未命名"
             }
           }
         ]
@@ -185,7 +185,11 @@
   },
   "active": "de8a3ad443e54f67",
   "lastOpenFiles": [
-    "src/content/rooms/cheng-xi.md",
-    "src/content/blog/文而能圣.md"
+    "src/content/blog/试试.md",
+    "src/content/blog/文而能圣.md",
+    "src/content/blog/未命名.md",
+    "Pasted image 20260213225929.png",
+    "src/content/rooms/bu-jin.md",
+    "src/content/rooms/cheng-xi.md"
   ]
 }

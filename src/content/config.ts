@@ -1,1 +1,6 @@
+import { defineCollection } from 'astro:content';
+
 const blog = defineCollection({ type: 'content' });
+const rooms = defineCollection({ type: 'content' });
+
+export const collections = { blog, rooms };
