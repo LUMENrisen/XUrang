@@ -16,14 +16,16 @@ const { data } = room;
 ---
 
 <Layout title={`${data.title} · 塔`}>
-  <main style="max-width: 700px; margin: 0 auto; padding: 2rem 1rem;">
-    <a href="/" style="display: inline-block; margin-bottom: 2rem;">← 返回塔</a>
-    <div style="font-size: 3rem;">{data.icon}</div>
-    <h1>{data.title}</h1>
-    <p style="font-size: 1.2rem; color: #4b5563;">{data.subtitle}</p>
-    <p>{data.description}</p>
-    <hr />
-    <h2>📄 相关文章</h2>
-    <p style="color: gray;">（这部分稍后添加——根据文章 tags 筛选）</p>
-  </main>
+<main style="max-width: 700px; margin: 0 auto; padding: 2rem 1rem; text-align: center;">
+<!-- 以下是隐藏的文字，可以删除或保留但注释掉
+  <a href="/" style="display: inline-block; margin-bottom: 2rem; text-align: left;">← 返回塔</a>
+-->
+  <div style="font-size: 4rem; line-height: 1.2; margin-bottom: 1rem;">{data.icon}</div>
+  <h1 style="font-size: 2.5rem; margin: 0.5rem 0;">{data.title}</h1>
+  <p style="font-size: 1.2rem; color: #4b5563; margin: 0 0 1rem;">{data.subtitle}</p>
+  <p style="color: #6b7280; max-width: 600px; margin: 0 auto;">{data.description}</p>
+  <hr style="margin: 2rem auto; width: 50px;" />
+  <h2>📄 相关文章</h2>
+  <p style="color: gray;">（这部分稍后添加）</p>
+</main>
 </Layout>

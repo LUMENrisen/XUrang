@@ -19,8 +19,10 @@ const posts = (await getCollection('blog'))
 		<style>
 			main {
 				width: 960px;
+		margin: 2rem auto;   /* 上下边距 2rem，左右自动居中 */
+  		padding: 0 1rem;     /* 可选：在小屏幕上留出左右空隙 */
 			}
-<p>文章数量：{posts.length}</p>
+
 			ul {
 				display: flex;
 				flex-wrap: wrap;
@@ -94,6 +96,7 @@ const posts = (await getCollection('blog'))
 	<body>
 		<Header />
 		<main>
+		<p>文章数量：{posts.length}</p>
 			<section>
 				<ul>
 					{

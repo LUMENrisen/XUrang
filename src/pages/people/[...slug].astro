@@ -1,0 +1,26 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const people = await getCollection('people');
+  return people.map((person) => ({
+    params: { slug: person.id.replace(/\.md$/, '') },
+    props: { person },
+  }));
+}
+
+const { person } = Astro.props;
+const { data } = person;
+---
+
+<Layout title={`${data.title} · 路`}>
+  <main style="max-width: 700px; margin: 0 auto; padding: 2rem 1rem;">
+
+    <h1>{data.title}</h1>
+    {data.description && <p style="color: gray;">{data.description}</p>}
+    <article>
+      <slot />
+    </article>
+  </main>
+</Layout>

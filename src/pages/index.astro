@@ -10,27 +10,29 @@ rooms.sort((a, b) => a.data.order - b.data.order);
 <Layout title="塔">
 	<main style="max-width: 1000px; margin: 0 auto; padding: 2rem 1rem;">
 		<h1 style="text-align: center; font-size: 3rem; margin-bottom: 0.5rem;">⭐</h1>
-		<p style="text-align: center; color: gray; margin-bottom: 3rem;">
-			欢迎。这是一座以系统思维为骨、东方诗学为魂的螺旋思想圣殿。
-		</p>
+		
 		<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1.5rem;">
 			{
 				rooms.map((room) => (
 					// 关键：链接必须指向 /rooms/房间id
 					<a href={`/rooms/${room.id}`} style="text-decoration: none; color: inherit;">
 						<article style="
+	
 							border: 1px solid #e5e7eb;
 							border-radius: 1rem;
-							padding: 1.5rem;
+							padding: 1.5rem;	/* 适当增加内边距，让图标有呼吸空间 */
 							background: white;
 							box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
 							transition: all 0.2s;
-							height: 100%;
+							height: 90%;
+							min-height: 20px;	/* 最小高度，保证居中空间 */
+							display: flex;
+							align-items: center;
+							justify-content: center;
+							text-align: center;
 						">
-							<div style="font-size: 2.5rem; margin-bottom: 0.5rem;">{room.data.icon}</div>
-							<h2 style="margin: 0 0 0.25rem; font-size: 1.5rem;">{room.data.title}</h2>
-							<p style="margin: 0 0 0.5rem; color: #4b5563; font-size: 0.9rem;">{room.data.subtitle}</p>
-							<p style="margin: 0; color: #6b7280;">{room.data.description}</p>
+							<div style="font-size: 2.4rem; line-height: 1;">{room.data.icon}</div>
+						
 						</article>
 					</a>
 				))
