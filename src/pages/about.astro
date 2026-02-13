@@ -5,7 +5,7 @@ import { getCollection } from 'astro:content';
 const rooms = await getCollection('rooms');
 rooms.sort((a, b) => a.data.order - b.data.order);
 
-// 人物与房间的对应关系（按你设计的顺序）
+// 人物与房间的对应关系（确保房间标题与 rooms 中的 title 一致）
 const identities = [
   { person: '路过', roomTitle: '风来' },
   { person: '路上', roomTitle: '花开' },
@@ -16,48 +16,44 @@ const identities = [
   { person: '路标', roomTitle: '道' },
 ];
 
-// 根据房间标题找到房间对象（注意房间文件的 title 字段）
+// 根据房间标题找到对应的房间对象
 const roomMap = Object.fromEntries(rooms.map(r => [r.data.title, r]));
 ---
 
 <Layout title="路 · Lumen's Atelier">
-  <main style="max-width: 900px; margin: 0 auto; padding: 2rem 1rem;">
+  <main style="max-width: 800px; margin: 0 auto; padding: 2rem 1rem;">
     <!-- 中央大图标 -->
     <div style="font-size: 6rem; text-align: center; margin-bottom: 2rem;">🦌</div>
 
-    <!-- 左右两列布局 -->
-    <div style="display: flex; justify-content: center; gap: 4rem; flex-wrap: wrap;">
-      <!-- 左侧人物列（右对齐） -->
-      <div style="min-width: 150px; text-align: right;">
-        {identities.map((item) => (
-          <div style="margin-bottom: 1rem;">
-            <a href={`/people/${item.person}`} style="text-decoration: none; color: inherit; font-size: 1.2rem;">
-              {item.person}
-            </a>
-          </div>
-        ))}
-      </div>
-
-      <!-- 右侧房间列（左对齐） -->
-      <div style="min-width: 150px;">
-        {identities.map((item) => {
-          const room = roomMap[item.roomTitle];
-          return room ? (
-            <div style="margin-bottom: 1rem;">
-              <a href={`/rooms/${room.id}`} style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 0.5rem;">
-                <span style="font-size: 1.6rem;">{room.data.icon}</span>
-                <span style="font-size: 1.2rem;">{room.data.title}</span>
+    <!-- 每一行是一个 flex 容器，左右两列固定宽度，整体居中 -->
+    <div style="display: flex; flex-direction: column; align-items: center; gap: 0.8rem;">
+      {identities.map((item) => {
+        const room = roomMap[item.roomTitle];
+        return (
+          <div style="display: flex; justify-content: center; width: 100%; gap: 2rem;">
+            <!-- 左侧人名（右对齐） -->
+            <div style="width: 120px; text-align: right;">
+              <a href={`/people/${item.person}`} style="text-decoration: none; color: inherit; font-size: 1.2rem;">
+                {item.person}
               </a>
             </div>
-          ) : (
-            <div style="margin-bottom: 1rem; color: gray;">未找到</div>
-          );
-        })}
-      </div>
+            <!-- 右侧房间图标和名称（左对齐） -->
+            <div style="width: 120px; text-align: left;">
+              {room ? (
+                <a href={`/rooms/${room.id}`} style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 0.5rem;">
+                  <span style="font-size: 1.6rem;">{room.data.icon}</span>
+                  <span style="font-size: 1.2rem;">{room.data.title}</span>
+                </a>
+              ) : (
+                <span style="color: gray;">未找到</span>
+              )}
+            </div>
+          </div>
+        );
+      })}
     </div>
 
-    <!-- 底部说明（可选） -->
-    <p style="text-align: center; margin-top: 3rem; color: gray;">
+    <p style="text-align: center; margin-top: 2rem; color: gray;">
       点击人名进入人物志，点击房间进入塔的房间
     </p>
   </main>
