@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "src/content/blog/未命名.md",
-                "mode": "preview",
+                "file": "src/content/blog/未命名 1.md",
+                "mode": "source",
                 "source": true
               },
               "icon": "lucide-file",
-              "title": "未命名"
+              "title": "未命名 1"
             }
           }
         ]
@@ -186,6 +186,8 @@
   },
   "active": "de8a3ad443e54f67",
   "lastOpenFiles": [
+    "src/content/blog/未命名.md",
+    "src/content/blog/未命名 1.md",
     "dist/sitemap-0.xml",
     "dist/sitemap-index.xml",
     "dist/index.html",
@@ -196,7 +198,6 @@
     "dist/rss.xml",
     "dist/rooms/you-sheng.md/index.html",
     "dist/rooms/ruo-shui.md/index.html",
-    "dist/rooms/hua-kai.md/index.html",
     "dist/rooms/you-sheng.md",
     "dist/rooms/ruo-shui.md",
     "dist/rooms/hua-kai.md",
@@ -211,7 +212,6 @@
     "dist/favicon.svg",
     "src/content/blog/试试.md",
     "src/content/blog/文而能圣.md",
-    "src/content/blog/未命名.md",
     "Pasted image 20260213225929.png",
     "src/content/rooms/bu-jin.md",
     "src/content/rooms/cheng-xi.md"
