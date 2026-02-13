@@ -5,7 +5,6 @@ import { getCollection } from 'astro:content';
 const rooms = await getCollection('rooms');
 rooms.sort((a, b) => a.data.order - b.data.order);
 
-// 人物与房间的对应关系（确保房间标题与 rooms 中的 title 一致）
 const identities = [
   { person: '路过', roomTitle: '风来' },
   { person: '路上', roomTitle: '花开' },
@@ -16,33 +15,32 @@ const identities = [
   { person: '路标', roomTitle: '道' },
 ];
 
-// 根据房间标题找到对应的房间对象
 const roomMap = Object.fromEntries(rooms.map(r => [r.data.title, r]));
 ---
 
 <Layout title="路 · Lumen's Atelier">
   <main style="max-width: 800px; margin: 0 auto; padding: 2rem 1rem;">
-    <!-- 中央大图标 -->
-    <div style="font-size: 6rem; text-align: center; margin-bottom: 2rem;">🦌</div>
+    <!-- 中央大图标，增大下方间距，确保视觉中心 -->
+    <div style="font-size: 6rem; text-align: center; margin-bottom: 3rem;">🦌</div>
 
-    <!-- 每一行是一个 flex 容器，左右两列固定宽度，整体居中 -->
-    <div style="display: flex; flex-direction: column; align-items: center; gap: 0.8rem;">
+    <!-- 列表容器，使用 flex 列，居中 -->
+    <div style="display: flex; flex-direction: column; align-items: center; gap: 1rem;">
       {identities.map((item) => {
         const room = roomMap[item.roomTitle];
         return (
-          <div style="display: flex; justify-content: center; width: 100%; gap: 2rem;">
-            <!-- 左侧人名（右对齐） -->
-            <div style="width: 120px; text-align: right;">
-              <a href={`/people/${item.person}`} style="text-decoration: none; color: inherit; font-size: 1.2rem;">
+          <div style="display: flex; justify-content: center; width: 100%; gap: 1rem; align-items: center;">
+            <!-- 左侧人名：固定宽度，右对齐，统一行高 -->
+            <div style="width: 120px; text-align: right; line-height: 2rem;">
+              <a href={`/people/${item.person}`} style="text-decoration: none; color: inherit; font-size: 1.5rem;">
                 {item.person}
               </a>
             </div>
-            <!-- 右侧房间图标和名称（左对齐） -->
-            <div style="width: 120px; text-align: left;">
+            <!-- 右侧房间：固定宽度，左对齐，图标和文字在同一水平线 -->
+            <div style="width: 190px; text-align: left; line-height: 2rem;">
               {room ? (
                 <a href={`/rooms/${room.id}`} style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 0.5rem;">
-                  <span style="font-size: 1.6rem;">{room.data.icon}</span>
-                  <span style="font-size: 1.2rem;">{room.data.title}</span>
+                  <span style="font-size: 1.8rem;">{room.data.icon}</span>
+                  <span style="font-size: 1rem;">{room.data.title}</span>
                 </a>
               ) : (
                 <span style="color: gray;">未找到</span>
@@ -53,7 +51,7 @@ const roomMap = Object.fromEntries(rooms.map(r => [r.data.title, r]));
       })}
     </div>
 
-    <p style="text-align: center; margin-top: 2rem; color: gray;">
+    <p style="text-align: center; margin-top: 2.5rem; color: gray;">
       点击人名进入人物志，点击房间进入塔的房间
     </p>
   </main>
