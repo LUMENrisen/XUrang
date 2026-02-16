@@ -4,14 +4,22 @@ interface Props {
 }
 
 const { date } = Astro.props;
+
+// 将 date 统一转换为 Date 对象
+let dateObj = date;
+if (typeof date === 'string') {
+  dateObj = new Date(date);
+}
+// 如果转换后无效，则使用当前日期（或根据需要处理）
+if (!(dateObj instanceof Date) || isNaN(dateObj)) {
+  dateObj = new Date(); // 备选：也可以设为 null 不显示
+}
 ---
 
-<time datetime={date.toISOString()}>
-	{
-		date.toLocaleDateString('en-us', {
-			year: 'numeric',
-			month: 'short',
-			day: 'numeric',
-		})
-	}
+<time datetime={dateObj.toISOString()}>
+  {dateObj.toLocaleDateString('en-us', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric'
+  })}
 </time>
