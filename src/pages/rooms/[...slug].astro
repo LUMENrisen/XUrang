@@ -4,7 +4,6 @@ import { getCollection } from 'astro:content';
 
 export async function getStaticPaths() {
   const rooms = await getCollection('rooms');
-  console.log('Rooms loaded:', rooms.map(r => r.id)); // 添加调试输出
   return rooms.map((room) => ({
     params: { slug: room.id },
     props: { room },
@@ -13,19 +12,38 @@ export async function getStaticPaths() {
 
 const { room } = Astro.props;
 const { data } = room;
+
+// 获取所有博客文章，筛选出 tags 包含当前房间标题的文章
+const allPosts = await getCollection('blog');
+const relatedPosts = allPosts.filter(post => 
+  post.data.tags && post.data.tags.includes(data.title)
+);
 ---
 
 <Layout title={`${data.title} · 塔`}>
-<main style="max-width: 700px; margin: 0 auto; padding: 2rem 1rem; text-align: center;">
-<!-- 以下是隐藏的文字，可以删除或保留但注释掉
-  <a href="/" style="display: inline-block; margin-bottom: 2rem; text-align: left;">← 返回塔</a>
--->
-  <div style="font-size: 4rem; line-height: 1.2; margin-bottom: 1rem;">{data.icon}</div>
-  <h1 style="font-size: 2.5rem; margin: 0.5rem 0;">{data.title}</h1>
-  <p style="font-size: 1.2rem; color: #4b5563; margin: 0 0 1rem;">{data.subtitle}</p>
-  <p style="color: #6b7280; max-width: 600px; margin: 0 auto;">{data.description}</p>
-  <hr style="margin: 2rem auto; width: 50px;" />
-  <h2>📄 相关文章</h2>
-  <p style="color: gray;">（这部分稍后添加）</p>
-</main>
+  <main style="max-width: 700px; margin: 0 auto; padding: 2rem 1rem;">
+ <div style="text-align: center;">
+    <div style="font-size: 3rem;">{data.icon}</div>
+    <h1>{data.title}</h1>
+    <p style="font-size: 1.2rem; color: #4b5563;">{data.subtitle}</p>
+    <p>{data.description}</p>
+    <hr />
+    <h2>相关文章</h2>
+    {relatedPosts.length === 0 ? (
+      <p style="color: gray;">暂无相关文章，你可以写一篇关联到“{data.title}”。</p>
+    ) : (
+      <ul style="list-style: none; padding: 0;">
+        {relatedPosts.map(post => (
+          <li style="margin-bottom: 0.5rem;">
+            <a href={`/blog/${post.id.replace(/\.md$/, '')}/`} style="text-decoration: none; color: var(--accent);">
+              {post.data.title}
+            </a>
+            <span style="color: gray; margin-left: 0.5rem; font-size: 0.9rem;">
+              {new Date(post.data.pubDate).toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' })}
+            </span>
+          </li>
+        ))}
+      </ul>
+    )}
+  </main>
 </Layout>

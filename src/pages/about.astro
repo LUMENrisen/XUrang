@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
+import { identities } from '../consts';
 
 const rooms = await getCollection('rooms');
 rooms.sort((a, b) => a.data.order - b.data.order);

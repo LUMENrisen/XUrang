@@ -14,8 +14,8 @@
               "type": "markdown",
               "state": {
                 "file": "src/content/blog/长风.md",
-                "mode": "source",
-                "source": false
+                "mode": "preview",
+                "source": true
               },
               "icon": "lucide-file",
               "title": "长风"
@@ -188,6 +188,7 @@
   "active": "da00f24dfa905891",
   "lastOpenFiles": [
     "src/content/blog/文而能圣.md",
+    "Templates/blog-post.md.md",
     "src/content/blog/长风.md",
     "src/pages/people/[...slug].astro",
     "src/pages/people/新建 文本文档.txt",
@@ -222,7 +223,6 @@
     "dist/rooms/ruo-shui.md",
     "dist/rooms/you-sheng.md",
     "dist/rooms/hua-kai.md",
-    "dist/rooms/feng-lai.md",
     "dist/_astro/blog-placeholder-1.Bx0Zcyzv.jpg",
     "dist/favicon.svg",
     "Pasted image 20260213225929.png"
