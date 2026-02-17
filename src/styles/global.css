@@ -46,3 +46,11 @@ small, .text-small {
   font-size: 0.85rem;
   color: #666;
 }
+
+@media (max-width: 640px) {
+  :root {
+    font-size: 14px; /* 手机上基础字号稍微减小 */
+  }
+  h1 { font-size: 2rem; }
+  h2 { font-size: 1.6rem; }
+}
