@@ -9,82 +9,38 @@ person: 路明
 
 ---
 
-## DeepSeek 对话导出脚本使用说明
+## 📌 主要改进点
 
-### 📌 脚本功能
+- **文件名中的序号**：现在使用原始对话中的序号（从 `START_FROM` 开始）作为三位数前缀，例如 `017_用户消息前50字.md`、`018_...`。
+- **ZIP文件名**：仍然包含范围后缀，如 `【对话】本地部署AI (17~19).zip`。
+- **索引文件**：列表序号从1开始重新编号，方便阅读导出部分的顺序。
 
-本脚本用于从 **DeepSeek 网页版** 导出当前分支的对话，生成一个 ZIP 压缩包，包含：
+## 🚀 使用示例
 
-- **索引文档**：以 `【标题】对话标题.md` 命名，包含有序列表，每项格式为 `序号. ● 用户消息预览`（● 表示该用户消息存在分支），以及用户附件列表（缩进展示）。
-- **分组文档**：每个用户消息及其对应的 AI 回复组成一个独立的 Markdown 文档，文件名以用户消息前 50 字符命名（空消息则命名为 `【无文字】三位序号.md`）。文档内容只包含 AI 的思考和回答（及 AI 附件），不包含用户消息正文。
-
-### 🚀 使用方法
-
-#### 1. 准备工作
-
-- 使用 **Chrome / Edge 浏览器**，打开 DeepSeek 网页，进入你想导出的对话页面。
-- 确保该对话是你想导出的**分支**（如果有多个分支，请先手动切换到对应分支）。
-- 如果对话中有图片、文件等附件，脚本会提取其**文件名**（仅用于索引），但不会下载实际文件。如需保存附件，请手动下载。
-
-#### 2. 运行脚本
-
-1. 按 **F12** 打开开发者工具，点击 **Console**（控制台）标签。
-2. 将下方完整脚本代码**复制**，粘贴到控制台中，然后按 **Enter** 执行。
-3. 等待几秒钟，脚本会自动处理并下载一个 ZIP 文件，文件名为 `【对话】对话标题.zip`。
-
-#### 3. 查看输出
-
-- 解压 ZIP 文件，得到若干 `.md` 文件。
-- **索引文件**：`【标题】对话标题.md`，打开可查看所有分组的预览、分支标记和附件信息。
-- **分组文件**：每个文件对应一次用户消息及其 AI 回复，文件名见索引。
-
-### 📂 输出文件结构
-
-```
-【对话】对话标题.zip
-├── 【标题】对话标题.md          # 索引文档
-├── 用户消息前50字符.md          # 第1组
-├── 用户消息前50字符_1.md        # 第2组（如有重名）
-├── 用户消息前50字符_2.md
-└── 【无文字】001.md             # 无文字内容的用户消息组
-```
-
-### ⚠️ 注意事项
-
-- **分支标记**：脚本会根据用户消息所在容器是否包含分支控件（`2/2` 等）自动添加 `●` 标记。仅当该用户消息有多个分支变体时才会标记。
-- **附件处理**：
-  - **用户附件**（如图片、文件）只会在索引文档中列出文件名，不包含实际内容。
-  - **AI 附件**（如果有）会出现在对应分组文档的末尾，以 `## 📎 AI附件` 标题展示。
-- **空消息处理**：如果用户消息只有附件而没有文字内容，文件名会统一为 `【无文字】三位序号.md`，索引预览显示为 `(无文字)`。
-- **多分支导出**：此脚本仅导出**当前可见分支**的对话。如果同一用户消息有多个分支（如 `2/2`），你需要手动切换到每个分支后分别运行脚本，得到多个 ZIP 文件。
-- **格式保留**：AI 回答中的代码块、列表、加粗等格式会转换为 Markdown 语法，在 Obsidian 等编辑器中可正常渲染。
-
-### ❓ 常见问题
-
-**Q：脚本运行后没有反应？**  
-A：请检查控制台是否有报错。常见原因：网络问题导致 JSZip 加载失败，或页面中未找到 `.ds-message` 元素。刷新页面后重试。
-
-**Q：索引中的预览内容有乱码或 HTML 标签？**  
-A：脚本已对特殊字符（如 `<`、`>`、`&`）进行转义，如果仍有异常，可能是页面结构有变。请提供控制台输出和示例 HTML，以便更新脚本。
-
-**Q：分支标记不准确？**  
-A：脚本根据 `._9663006` 容器内的 `._17e14c5` 判断分支。如果页面结构变化，标记可能失效。此时可手动检查并反馈。
-
-**Q：如何导出所有分支？**  
-A：手动点击分支切换按钮（如 `2/2`），每次切换后运行一次脚本，得到多个 ZIP 文件。后续可手动合并或使用 AI 整理。
-
-### 📝 脚本代码
+- 如果想从第17条开始导出，设置 `START_FROM = 17`，运行后得到的文件如：
+  - `017_用户消息预览.md`
+  - `018_用户消息预览.md`
+  - `019_用户消息预览.md`
+- 索引文件 `【标题】本地部署AI.md` 中会显示：
+  
+  ```
+  1. 用户消息预览（第17条）...
+  2. 用户消息预览（第18条）...
+  3. 用户消息预览（第19条）...
+  ```
+  
 
 ```javascript
 (function() {
-  console.log('🔍 开始导出对话（分支基于用户消息）...');
+  console.log('🔍 开始导出对话（分支基于用户消息，文件名保留原始序号）...');
 
-  // ========== 配置 ==========
+  // ========== 可配置参数 ==========
   const TITLE_SELECTOR = 'div.afa34042.e37a04e4.e0a1edb7';
   const BRANCH_SELECTOR = '.dd7e4fda';
-  const BRANCH_CONTAINER = '._17e14c5'; // 分支控件所在容器
+  const BRANCH_CONTAINER = '._17e14c5';
   const INDEX_FIXED_PREFIX = '【标题】';
-  // ==========================
+  const START_FROM = 1;  // <--- 修改这里：从第几条用户消息开始导出（1表示第一条）
+  // ================================
 
   function loadJSZip(callback) {
     if (window.JSZip) { callback(); return; }
@@ -100,7 +56,6 @@ A：手动点击分支切换按钮（如 `2/2`），每次切换后运行一次�
     return el ? el.textContent.trim() : '对话导出';
   }
 
-  // ---------- 检查用户消息是否有分支（基于用户消息元素）----------
   function userMessageHasBranch(userElement) {
     const wrapper = userElement.closest('._9663006');
     if (!wrapper) return false;
@@ -108,15 +63,12 @@ A：手动点击分支切换按钮（如 `2/2`），每次切换后运行一次�
     if (branchContainer) {
       const indicator = branchContainer.querySelector(BRANCH_SELECTOR);
       if (indicator && /^\d+\s*\/\s*\d+$/.test(indicator.textContent.trim())) {
-        console.log('✅ 用户消息有分支:', indicator.textContent.trim());
         return true;
       }
     }
-    console.log('❌ 用户消息无分支');
     return false;
   }
 
-  // 提取附件（仅文件名）
   function extractAttachments(messageEl) {
     const attachments = [];
     messageEl.querySelectorAll('._789aea7').forEach(container => {
@@ -128,7 +80,6 @@ A：手动点击分支切换按钮（如 `2/2`），每次切换后运行一次�
     return attachments;
   }
 
-  // HTML 转 Markdown
   function htmlToMarkdown(html) {
     if (!html) return '';
     let text = html;
@@ -254,21 +205,33 @@ A：手动点击分支切换按钮（如 `2/2`），每次切换后运行一次�
     return groups;
   }
 
-  function generateFilename(userContent, existingNames, index) {
+  function filterGroupsFrom(groups, startFrom) {
+    if (startFrom < 1) startFrom = 1;
+    if (startFrom > groups.length) {
+      alert(`起始序号 ${startFrom} 超出总组数 ${groups.length}，请修改 START_FROM 值。`);
+      return [];
+    }
+    return groups.slice(startFrom - 1);
+  }
+
+  // 修改：使用原始序号 originalIndex 作为文件名前缀
+  function generateFilename(userContent, existingNames, originalIndex) {
+    const paddedIndex = String(originalIndex).padStart(3, '0');
     if (!userContent || userContent.trim() === '') {
-      let filename = `【无文字】${String(index).padStart(3, '0')}.md`;
+      let filename = `【无文字】${paddedIndex}.md`;
       while (existingNames.has(filename)) {
-        filename = `【无文字】${String(++index).padStart(3, '0')}.md`;
+        // 理论上不会重名，因为原始序号唯一
+        filename = `【无文字】${paddedIndex}_${Date.now()}.md`;
       }
       existingNames.add(filename);
       return filename;
     } else {
       let safe = userContent.slice(0, 50).replace(/[\\/*?:"<>|]/g, '').replace(/\s+/g, '_');
       if (!safe) safe = '消息';
-      let filename = safe + '.md';
+      let filename = `${paddedIndex}_${safe}.md`;
       let counter = 1;
       while (existingNames.has(filename)) {
-        filename = `${safe}_${counter}.md`;
+        filename = `${paddedIndex}_${safe}_${counter}.md`;
         counter++;
       }
       existingNames.add(filename);
@@ -286,17 +249,16 @@ A：手动点击分支切换按钮（如 `2/2`），每次切换后运行一次�
     return content;
   }
 
-  function generateIndex(groups, conversationTitle) {
+  function generateIndex(filteredGroups, conversationTitle) {
     let index = `导出时间：${new Date().toLocaleString()}\n`;
-    index += `总轮次：${groups.length}\n\n`;
+    index += `总轮次：${filteredGroups.length}\n\n`;
 
-    groups.forEach((group, i) => {
+    filteredGroups.forEach((group, i) => {
       const seq = i + 1;
       let preview = group.userContent || '(无文字)';
       preview = preview.replace(/\n/g, ' ').replace(/\s+/g, ' ').trim();
       preview = preview.replace(/&/g, '&').replace(/</g, '<').replace(/>/g, '>');
 
-      // 使用 ● 标记有分支的对话
       const branchMark = group.hasBranch ? ' ●' : '';
 
       index += `${seq}.${branchMark} ${preview}\n`;
@@ -319,31 +281,43 @@ A：手动点击分支切换按钮（如 `2/2`），每次切换后运行一次�
     const messages = processMessages();
     if (!messages.length) return;
 
-    const groups = groupByUserMessages(messages);
-    console.log(`📦 共 ${groups.length} 组`);
+    const allGroups = groupByUserMessages(messages);
+    const totalGroups = allGroups.length;
+    console.log(`📦 原始总组数: ${totalGroups}`);
+
+    const filteredGroups = filterGroupsFrom(allGroups, START_FROM);
+    if (filteredGroups.length === 0) return;
+
+    const startFrom = START_FROM;
+    const endAt = startFrom + filteredGroups.length - 1;
+    console.log(`📦 导出范围: 第 ${startFrom} ~ ${endAt} 组（共 ${filteredGroups.length} 组）`);
 
     const zip = new JSZip();
     const usedFilenames = new Set();
 
-    groups.forEach((group, idx) => {
-      const filename = generateFilename(group.userContent, usedFilenames, idx + 1);
-      group.filename = filename;
+    filteredGroups.forEach((group, idx) => {
+      const originalIndex = START_FROM + idx; // 原始序号
+      const filename = generateFilename(group.userContent, usedFilenames, originalIndex);
+      group.filename = filename; // 用于索引中（但索引中不显示文件名，所以可忽略）
       zip.file(filename, generateGroupContent(group));
     });
 
     const safeTitle = conversationTitle.replace(/[\\/*?:"<>|]/g, '').replace(/\s+/g, '_');
     const indexFilename = `${INDEX_FIXED_PREFIX}${safeTitle}.md`;
-    const indexContent = generateIndex(groups, conversationTitle);
+    const indexContent = generateIndex(filteredGroups, conversationTitle);
     zip.file(indexFilename, indexContent);
+
+    const rangeSuffix = ` (${startFrom}~${endAt})`;
+    const zipFileName = `【对话】${safeTitle}${rangeSuffix}.zip`;
 
     zip.generateAsync({ type: 'blob' }).then(blob => {
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
-      a.download = `【对话】${safeTitle}.zip`;
+      a.download = zipFileName;
       a.href = url;
       a.click();
       URL.revokeObjectURL(url);
-      alert(`✅ 导出成功！共 ${groups.length} 组。`);
+      alert(`✅ 导出成功！共 ${filteredGroups.length} 组，范围 ${startFrom}~${endAt}。`);
     });
   });
 })();
